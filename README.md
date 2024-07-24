@@ -1,42 +1,77 @@
-# Customized-LLM-APP
+# Diabetes Management Assistant Chatbot
 
-Building a Retrieval-Augmented Generation (RAG) bot can significantly enhance the capabilities of a language model by incorporating external knowledge to generate more accurate and contextually relevant responses. This guide will walk you through creating a simple RAG bot using Gradio and the Hugging Face APIs.
+## Overview
 
-But how does RAG enhance LLM’s performance?
+This project implements a Retrieval-Augmented Generation (RAG) chatbot designed to assist users in managing diabetes effectively. The chatbot provides personalized advice, tips, and resources on various aspects of diabetes management, including diet, exercise, medication, and lifestyle changes.
 
-RAG improves the performance of language models by augmenting them with external documents. This method retrieves relevant documents based on the user query and combines them with the original prompt before passing them to the language model for response generation. This approach ensures that the language model can access up-to-date and domain-specific information without the need for extensive retraining.
+## Features
 
+- Utilizes the Zephyr-7b-beta language model for generating responses
+- Implements RAG to enhance responses with relevant information from a diabetes management knowledge base
+- Uses sentence transformers and FAISS for efficient document retrieval
+- Provides a user-friendly chat interface built with Gradio
 
+## Technical Stack
 
-A common scenario of RAG helping LLM (Source)
+- Python
+- Gradio for the web interface
+- HuggingFace's InferenceClient for the language model
+- PyMuPDF for PDF processing
+- Sentence-Transformers for text embedding
+- FAISS for vector similarity search
+- NumPy for numerical operations
 
-The basic steps in RAG can be simplified as follows:
+## Installation
 
-Input: The question to which the LLM system responds is referred to as the input. If no RAG is used, the LLM is directly used to respond to the question.
+1. Clone the repository:
+   ```
+   git clone https://github.com/MannatSidhu-4371127/Customized-LLM-APP/.git
+   cd Customized-LLM-APP
+   ```
 
-Indexing: If RAG is used, then a series of related documents are indexed by chunking them first, generating embeddings of the chunks, and indexing them into a vector store. At inference, the query is also embedded in a similar way.
+2. Install the required dependencies:
+   ```
+   pip install -r requirements.txt
+   ```
 
+## Usage
 
-Basic retrieval steps in RAG. (Source)
+1. Ensure you have the knowledge base PDF file (`DB_management.pdf`) in the project directory.
 
-Retrieval: The relevant documents are obtained by comparing the query against the indexed vectors, also denoted as “Relevant Documents”.
+2. Run the application:
+   ```
+   python app.py
+   ```
 
-Generation: The relevant documents are combined with the original prompt as additional context. The combined text and prompt are then passed to the model for response generation which is then prepared as the final output of the system to the user.
+3. Open the provided URL in your web browser to interact with the chatbot.
 
-In the example provided, using the model directly fails to respond to the question due to a lack of knowledge of current events. On the other hand, when using RAG, the system can pull the relevant information needed for the model to answer the question appropriately. (Source)
+## How It Works
 
-Now Let’s Build a Chatbot using RAG:
+1. The app loads and processes the PDF knowledge base on startup.
+2. It builds a vector database from the extracted text using sentence transformers.
+3. When a user asks a question, the app searches for relevant information in the vector database.
+4. The retrieved information is combined with the user's query and sent to the Zephyr-7b-beta model.
+5. The model generates a response based on the combined input, providing diabetes management advice.
 
-I have used Zephyr LLM model and all-MiniLM-L6-v2 sentence transformer model. This sentence-transformers model maps sentences & paragraphs to a 384 dimensional dense vector space and can be used for tasks like clustering or semantic search.
+## Customization-
 
-The all-* models were trained on all available training data (more than 1 billion training pairs) and are designed as general purpose models. The all-mpnet-base-v2 model provides the best quality, while all-MiniLM-L6-v2 is 5 times faster and still offers good quality. Toggle All models to see all evaluated original models.
+You can customize the chatbot by:
+- Replacing the knowledge base PDF with your own diabetes management resources
+- Adjusting the system message to focus on specific aspects of diabetes management
+- Modifying the response generation parameters (max_tokens, temperature, top_p)
 
-We need the following ingredients:
+## Example Queries used-
 
-1. A PDF as your knowledgebase
+- "What foods should I avoid to keep my blood sugar stable?"
+- "What are the best exercises for someone with diabetes?"
+- "How can I manage stress to help control my diabetes?"
 
-2. A requirements.txt file
+## Acknowledgements-
 
-3. An app.py file
+- This project uses the [Zephyr-7b-beta](https://huggingface.co/HuggingFaceH4/zephyr-7b-beta) model from HuggingFace.
+- The diabetes management knowledge base is derived from "MANAGEMENT OF DIABETES MELLITUS: STANDARDS OF CARE AND CLINICAL PRACTICE GUIDELINES" edited by Dr A.A.S. Alwan.
+- Vector similarity search is powered by FAISS.
 
-4. An account on Hugging Face (See this blog to learn about building a LLM chatbot in Hugging Face)
+---
+
+For any questions or contributions, please open an issue or submit a pull request.

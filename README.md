@@ -1,17 +1,17 @@
 # Diabetes Management Assistant Chatbot
 
-## Overview
+## Overview-
 
 This project implements a Retrieval-Augmented Generation (RAG) chatbot designed to assist users in managing diabetes effectively. The chatbot provides personalized advice, tips, and resources on various aspects of diabetes management, including diet, exercise, medication, and lifestyle changes.
 
-## Features
+## Features-
 
 - Utilizes the Zephyr-7b-beta language model for generating responses
 - Implements RAG to enhance responses with relevant information from a diabetes management knowledge base
 - Uses sentence transformers and FAISS for efficient document retrieval
 - Provides a user-friendly chat interface built with Gradio
 
-## Technical Stack
+## Technical Stack-
 
 - Python
 - Gradio for the web interface
@@ -21,7 +21,7 @@ This project implements a Retrieval-Augmented Generation (RAG) chatbot designed 
 - FAISS for vector similarity search
 - NumPy for numerical operations
 
-## Installation
+## Installation-
 
 1. Clone the repository:
    ```
@@ -34,7 +34,7 @@ This project implements a Retrieval-Augmented Generation (RAG) chatbot designed 
    pip install -r requirements.txt
    ```
 
-## Usage
+## Usage-
 
 1. Ensure you have the knowledge base PDF file (`DB_management.pdf`) in the project directory.
 
@@ -45,7 +45,7 @@ This project implements a Retrieval-Augmented Generation (RAG) chatbot designed 
 
 3. Open the provided URL in your web browser to interact with the chatbot.
 
-## How It Works
+## How It Works-
 
 1. The app loads and processes the PDF knowledge base on startup.
 2. It builds a vector database from the extracted text using sentence transformers.

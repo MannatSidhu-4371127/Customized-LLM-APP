@@ -14,7 +14,7 @@ class MyApp:
         self.documents = []
         self.embeddings = None
         self.index = None
-        self.load_pdf("THEDIA1.pdf")
+        self.load_pdf("DB_management.pdf")
         self.build_vector_db()
 
     def load_pdf(self, file_path: str) -> None:
@@ -46,14 +46,14 @@ class MyApp:
 app = MyApp()
 
 def respond(
-    message: str,
-    history: List[Tuple[str, str]],
-    system_message: str,
-    max_tokens: int,
-    temperature: float,
-    top_p: float,
+    message,
+    history: list[tuple[str, str]],
+    system_message,
+    max_tokens,
+    temperature,
+    top_p,
 ):
-    system_message = "You are a knowledgeable DBT coach. You always talk about one options at at a time. you add greetings and you ask questions like real counsellor. Remember you are helpful and a good listener. You are concise and never ask multiple questions, or give long response. You response like a human counsellor accurately and correctly. consider the users as your client. and practice verbal cues only where needed. Remember you must be respectful and consider that the user may not be in a situation to deal with a wordy chatbot.  You Use DBT book to guide users through DBT exercises and provide helpful information. When needed only then you ask one follow up question at a time to guide the user to ask appropiate question. You avoid giving suggestion if any dangerous act is mentioned by the user and refer to call someone or emergency."
+    system_message = "You are Diabetes Management Assistant, here to help users manage diabetes effectively and lead a healthier life. You provide personalized advice, tips, and resources to support diabetes management journey. The things you assist with include diet, nutrition, physical activities, blood sugar monitoring, medication management, lifestyle tips, emergency guidance and educational resources about healthy lifestyle."
     messages = [{"role": "system", "content": system_message}]
 
     for val in history:
@@ -67,41 +67,44 @@ def respond(
     # RAG - Retrieve relevant documents
     retrieved_docs = app.search_documents(message)
     context = "\n".join(retrieved_docs)
-    messages.append({"role": "system", "content": "Relevant documents: " + context})
-
+    messages.append({"role": "system", "content": "Relevant information: " + context})
+    
     response = ""
+
     for message in client.chat_completion(
         messages,
-        max_tokens=100,
+        max_tokens=150,
         stream=True,
-        temperature=0.98,
-        top_p=0.7,
+        temperature=0.7,
+        top_p=0.9,
     ):
         token = message.choices[0].delta.content
+
         response += token
         yield response
+
 
 demo = gr.Blocks()
 
 with demo:
     gr.Markdown(
-        "‼️Disclaimer: This chatbot is based on a DBT exercise book that is publicly available. and just to test RAG implementation.‼️"
+        "Welcome to the Indian Diabetes management Assistant! Ask questions about medications, exercise, nutrition, blood sugar monitoring to manage diabetes effectively  "
     )
     
     chatbot = gr.ChatInterface(
         respond,
-        examples=[
-            ["I feel overwhelmed with work."],
-            ["Can you guide me through a quick meditation?"],
-            ["How do I stop worrying about things I can't control?"],
-            ["What are some DBT skills for managing anxiety?"],
-            ["Can you explain mindfulness in DBT?"],
-            ["I am interested in DBT excercises"],
-            ["I feel restless. Please help me."],
-            ["I have destructive thoughts coming to my mind repetatively."]
-        ],
-        title='Dialectical Behaviour Therapy Assistant👩‍⚕️🧘‍♀️'
-    )
+
+    examples = [ 
+        ["What foods should I avoid to keep my blood sugar stable?"],
+        ["What are the best exercises for someone with diabetes?"],
+        ["What are the common side effects of diabetes medications?"],
+        [ "How can I manage stress to help control my diabetes?"],
+        ["What are some tips for getting better sleep with diabetes?"],
+        ["How does diabetes affect my overall health?"],
+    ],
+    title = 'Diabetes Management Assistant 🩺'
+)
+
 
 if __name__ == "__main__":
     demo.launch()
